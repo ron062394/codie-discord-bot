@@ -23,6 +23,11 @@ client.on('messageCreate', message => {
     // Add more conditions as needed
 });
 
+// Log errors during login
+client.on('error', error => {
+    console.error('Error during login:', error);
+});
+
 client.login(token)
   .then(() => {
     console.log('Bot logged in successfully!');
