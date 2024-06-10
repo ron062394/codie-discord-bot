@@ -4,6 +4,7 @@ require('dotenv').config();
 
 // Retrieve bot token from environment variable
 const token = process.env.DISCORD_BOT_TOKEN;
+console.log(token)
 
 client.once('ready', () => {
     console.log('Bot is online!');
