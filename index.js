@@ -31,7 +31,7 @@ client.on('error', error => {
 
 client.login(token)
   .then(() => {
-    console.log('Bot logged in successfully!');
+    console.log('Bot logged in successfully!', token);
   })
   .catch(error => {
     console.error('Error logging in:', error);
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
         res.status(200).send('Message received.');
     } else if (req.method === 'GET') {
         // Respond to GET requests with a simple message
-        res.status(200).send('Discord bot is running.');
+        res.status(200).send('Discord bot is running.', token);
     } else {
         // Respond with a method not allowed error for other methods
         res.setHeader('Allow', ['POST', 'GET']);
