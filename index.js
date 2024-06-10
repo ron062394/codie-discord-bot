@@ -25,8 +25,24 @@ client.on('messageCreate', message => {
 
 client.login(token);
 
-// Export an empty function as the entry point for Vercel
-module.exports = async function() {
-    // This function is empty because Vercel will not use it to handle requests,
-    // but it needs to be exported to satisfy Vercel's requirement.
+// Export the route handler function
+module.exports = async (req, res) => {
+    // Verify that the request method is POST
+    if (req.method === 'POST') {
+        // Parse the request body as JSON
+        const body = JSON.parse(req.body);
+
+        // Check if the body contains a message
+        if (body && body.message) {
+            // Handle the incoming message
+            const message = body.message;
+            client.emit('messageCreate', message);
+        }
+
+        // Respond with a success message
+        res.status(200).send('Message received.');
+    } else {
+        // Respond with a method not allowed error
+        res.status(405).send('Method not allowed.');
+    }
 };
