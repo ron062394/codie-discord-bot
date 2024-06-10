@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
         res.status(200).send('Message received.');
     } else if (req.method === 'GET') {
         // Respond to GET requests with a simple message
-        res.status(200).send('Discord bot is running.', token);
+        res.status(200).send('Discord bot is running test.', token);
     } else {
         // Respond with a method not allowed error for other methods
         res.setHeader('Allow', ['POST', 'GET']);
