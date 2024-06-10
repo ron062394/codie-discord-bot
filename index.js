@@ -1,8 +1,6 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-
-// Retrieve bot token from environment variable
-const token = process.env.DISCORD_BOT_TOKEN;
+require('dotenv').config();
 
 client.once('ready', () => {
     console.log('Bot is online!');
@@ -13,12 +11,16 @@ client.on('messageCreate', message => {
     if (message.author.bot) return;
 
     // Respond to specific messages
-    if (message.content.toLowerCase().includes('hello')) {
-        message.reply('Hello! How can I assist you today?');
-    } else if (message.content.toLowerCase().includes('help')) {
+    if (message.content.toLowerCase().includes('ron')) {
+        message.reply('The most awesome!');
+    } else if (message.content.toLowerCase().includes('hey')) {
         message.reply('Sure! How can I help you?');
+        console.log(message.content)
     }
     // Add more conditions as needed
 });
 
-client.login(token);
+// Export the client for use in other modules (if needed)
+module.exports = {
+    client
+};
