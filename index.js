@@ -1,51 +1,49 @@
+// Import required modules
 const { Client, GatewayIntentBits } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 require('dotenv').config();
-
-// Retrieve bot token from environment variable
-const token = process.env.DISCORD_BOT_TOKEN;
-console.log(token)
-
-client.once('ready', () => {
-    console.log('Bot is online!');
-});
-
-client.on('messageCreate', message => {
-    // Ignore messages from the bot itself
-    if (message.author.bot) return;
-
-    // Respond to specific messages
-    if (message.content.toLowerCase().includes('ron')) {
-        message.reply('The most aweesommenness!');
-    } else if (message.content.toLowerCase().includes('hey')) {
-        message.reply('Sure! How can I help you?');
-        console.log(message.content)
-    }
-    // Add more conditions as needed
-});
-
-if (token) {
-    console.log("online")
-} else {
-    console.log("offline")
-}
-
-
-// Log errors during login
-client.on('error', error => {
-    console.error('Error during login:', error);
-});
-
-client.login(token)
-  .then(() => {
-    console.log('Bot logged in successfully!', token);
-  })
-  .catch(error => {
-    console.error('Error logging in:', error);
-  });
 
 // Export the route handler function
 module.exports = async (req, res) => {
+    // Create a new Discord client
+    const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
+    // Retrieve bot token from environment variable
+    const token = process.env.DISCORD_BOT_TOKEN;
+    console.log(token);
+
+    // Set up event listeners
+    client.once('ready', () => {
+        console.log('Bot is online!');
+    });
+
+    client.on('messageCreate', message => {
+        // Ignore messages from the bot itself
+        if (message.author.bot) return;
+
+        // Respond to specific messages
+        if (message.content.toLowerCase().includes('ron')) {
+            message.reply('The most aweesommenness!');
+        } else if (message.content.toLowerCase().includes('hey')) {
+            message.reply('Sure! How can I help you?');
+            console.log(message.content);
+        }
+        // Add more conditions as needed
+    });
+
+    // Log errors during login
+    client.on('error', error => {
+        console.error('Error during login:', error);
+    });
+
+    // Log in the bot
+    try {
+        await client.login(token);
+        console.log('Bot logged in successfully!', token);
+    } catch (error) {
+        console.error('Error logging in:', error);
+    }
+
+    // Handle incoming HTTP requests
     if (req.method === 'POST') {
         // Parse the request body as JSON
         const body = JSON.parse(req.body);
