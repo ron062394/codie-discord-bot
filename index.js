@@ -27,7 +27,6 @@ client.login(token);
 
 // Export the route handler function
 module.exports = async (req, res) => {
-    // Verify that the request method is POST
     if (req.method === 'POST') {
         // Parse the request body as JSON
         const body = JSON.parse(req.body);
@@ -41,8 +40,12 @@ module.exports = async (req, res) => {
 
         // Respond with a success message
         res.status(200).send('Message received.');
+    } else if (req.method === 'GET') {
+        // Respond to GET requests with a simple message
+        res.status(200).send('Discord bot is running.');
     } else {
-        // Respond with a method not allowed error
+        // Respond with a method not allowed error for other methods
+        res.setHeader('Allow', ['POST', 'GET']);
         res.status(405).send('Method not allowed.');
     }
 };
