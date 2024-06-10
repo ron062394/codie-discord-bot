@@ -25,5 +25,8 @@ client.on('messageCreate', message => {
 
 client.login(token);
 
-// Export an empty object to satisfy Vercel's requirement
-module.exports = {};
+// Export an empty function as the entry point for Vercel
+module.exports = async function() {
+    // This function is empty because Vercel will not use it to handle requests,
+    // but it needs to be exported to satisfy Vercel's requirement.
+};
