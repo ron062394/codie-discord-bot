@@ -2,7 +2,6 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 require('dotenv').config();
 
-
 // Retrieve bot token from environment variable
 const token = process.env.DISCORD_BOT_TOKEN;
 
@@ -25,3 +24,6 @@ client.on('messageCreate', message => {
 });
 
 client.login(token);
+
+// Export an empty object to satisfy Vercel's requirement
+module.exports = {};
