@@ -24,6 +24,13 @@ client.on('messageCreate', message => {
     // Add more conditions as needed
 });
 
+if (token) {
+    console.log("online")
+} else {
+    console.log("offline")
+}
+
+
 // Log errors during login
 client.on('error', error => {
     console.error('Error during login:', error);
