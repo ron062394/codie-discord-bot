@@ -23,7 +23,13 @@ client.on('messageCreate', message => {
     // Add more conditions as needed
 });
 
-client.login(token);
+client.login(token)
+  .then(() => {
+    console.log('Bot logged in successfully!');
+  })
+  .catch(error => {
+    console.error('Error logging in:', error);
+  });
 
 // Export the route handler function
 module.exports = async (req, res) => {
