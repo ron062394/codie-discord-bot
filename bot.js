@@ -21,9 +21,20 @@ client.once('ready', () => {
 
 client.on('guildMemberAdd', member => {
     // Send a welcome message to the new member
-    member.send('Welcome to the server! If you need help, type !commands to see available commands.');
+    member.send(`Hello ${member.user.username}! 🎉 Welcome to OneCodeCamp! We're excited to have you join our community.
+    
+Here's a few things to get you started:
+- Check out the #welcome-and-rules channel to familiarize yourself with our guidelines.
+- Type !commands to see the list of commands you can use.
+- If you have any questions, feel free to ask in the #helpdesk channel.
+- Feel free to chat and hang out in the #off-topic channel.
+
+Happy learning and coding! 🚀
+`);
     console.log(`Sent a welcome message to ${member.user.tag}`);
 });
+
+
 
 client.on('messageCreate', message => {
     // Ignore messages from the bot itself
@@ -35,10 +46,8 @@ client.on('messageCreate', message => {
 
     // Respond to specific messages in server channels
     const content = message.content.toLowerCase();
-    if (content.includes('help')) {
-        message.reply('Hi, if you need help, you may send a message to the #helpdesk channel. If you need a list of commands, type !commands.');
-    } else if (content === '!commands') {
-        message.reply('Here are some available commands:\n\n!ping - Check if the bot is responsive.\n!help - Get help information.\n!commands - Display available commands.\n!courses - Display information about the ongoing and upcoming courses.\n!serverinfo - Display information about the server.\n!certificate - Information about course completion certificates.\n!feedback - Provide feedback about the bootcamp.');
+    if (content === '!commands') {
+        message.reply('Here are some available commands:\n\n!ping - Check if the bot is responsive.\n!commands - Display available commands.\n!courses - Display information about the ongoing and upcoming courses.\n!serverinfo - Display information about the server.\n!certificate - Information about course completion certificates.\n!feedback - Provide feedback about the bootcamp.');
     } else if (content === '!ping') {
         message.reply('Hello there!');
     } else if (content === '!courses') {
@@ -55,18 +64,58 @@ client.on('messageCreate', message => {
 
 
 
+
+
 client.on('messageCreate', async message => {
     // Ignore messages from the bot itself
     if (message.author.bot) return;
 
     // Respond to specific commands in server channels
     const content = message.content.toLowerCase();
-    if (content.includes('signup') || content.includes('register') || content.includes('registration')) {
-        // Handle registration logic here
-        // For example, you can add the user to a database or assign a role to them
+    if (content.includes('help')) {
+        message.reply('Hi, if you need help, you may send a message to the #helpdesk channel. If you need a list of commands, type !commands.');
+    }else if (content.includes('not') && content.includes('orientation')) {
+        message.reply('We\'re sorry, but if you missed the first class, you won\'t be able to join this batch. However, don\'t worry! We would love to have you in the next one.');
+    }else if (content.includes('signup') || content.includes('register') || content.includes('join') || content.includes('registration')) {
         message.reply('Please check the pinned messages in the #upcoming-courses channel for information about ongoing and upcoming courses.');
+    } else if (content.includes('zoom link') || content.includes('zoom') || content.includes('link')) {
+        message.reply("Zoom links for orientation are posted in the #helpdesk and #upcoming-bootcamps channels. The daily bootcamp link will be posted and pinned in the batch's official Slack group, which is accessible to those who join on Orientation Day.");
+    } else if (content.includes('schedule') || content.includes('today')) {
+        message.reply('Our bootcamp is from Monday to Thursday.');
+    }
+
+
+    if (message.content.toLowerCase().includes('webinar') && message.content.toLowerCase().includes('recording')) {
+        message.reply('You can access the recordings via this link: https://onecodecamp.com/Recording');
+    } else if (message.content.toLowerCase().includes('where') && message.content.toLowerCase().includes('recording')) {
+        message.reply('Our bootcamp class recordings will be posted/pinned on your official batch Slack group channel.');
+    }
+    
+});
+
+client.on('messageCreate', async message => {
+    // Ignore messages from the bot itself
+    if (message.author.bot) return;
+
+    // Check if the message contains the #announcement command
+    const content = message.content.toLowerCase();
+    if (content.includes('#announcement')) {
+        // Define an array of emojis
+        const emojis = ['😊', '👏', '🌟', '👍', '🔥', '💯', '🙌', '❤️', '🥳', '🚀'];
+        // Shuffle the emojis array
+        emojis.sort(() => Math.random() - 0.5);
+        // Select a random number of emojis (up to 7)
+        const numEmojis = Math.min(Math.floor(Math.random() * 10) + 1, emojis.length);
+        // React to the message with the selected emojis
+        for (let i = 0; i <= 7; i++) {
+            await message.react(emojis[i]);
+        }
     }
 });
+
+
+
+
 
 
 // Log errors during login
@@ -81,4 +130,4 @@ client.login(token)
     .catch(error => {
         console.error('Error logging in:', error);
     });
-// https://discord.com/oauth2/authorize?client_id=1249894544196108338&permissions=1084479764544&integration_type=0&scope=bot
+// https://discord.com/oauth2/authorize?client_id=1249686479551070300&permissions=1084479764544&integration_type=0&scope=bot
