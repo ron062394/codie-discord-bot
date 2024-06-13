@@ -3,7 +3,8 @@ require('dotenv').config();
 
 // Retrieve bot token from environment variable
 const token = process.env.DISCORD_TOKEN;
-const adminUserId = '170218754301624321'; // Replace with the actual admin user ID
+const adminUserId1 = '170218754301624321'; // Replace with the actual admin user ID
+const adminUserId2 = '1157972691828088892'; // Replace with the actual admin user ID
 
 const client = new Client({
     intents: [
@@ -59,8 +60,10 @@ client.on('messageCreate', async message => {
         message.reply('We value your feedback! Please fill out our feedback form at [Feedback Form Link] to let us know how we\'re doing and how we can improve.\nLink: https://docs.google.com/forms/d/e/1FAIpQLSfaPzmi6jroqs3aJFcuQ_cDCHkNv1BiGtZ2B0ptnq-lOyu8Kw/viewform');
     } else if (content === '!admin') {
         try {
-            const adminUser = await client.users.fetch(adminUserId);
-            await adminUser.send(`Admin, ${message.author.username} needs your assistance.`);
+            const adminUser1 = await client.users.fetch(adminUserId1);
+            const adminUser2 = await client.users.fetch(adminUserId2);
+            await adminUser1.send(`Admin, ${message.author.username} needs your assistance.`);
+            await adminUser2.send(`Admin, ${message.author.username} needs your assistance.`);
             message.reply('I have notified the admin. They will get back to you shortly.');
         } catch (error) {
             console.error('Error sending DM to admin:', error);
