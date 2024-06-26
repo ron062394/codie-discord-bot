@@ -7,7 +7,8 @@ const token = process.env.DISCORD_TOKEN;
 //  step 1077544030201716777
 //  tester 1157972691828088892
 //  ethan 1052027562542514238
-const adminUserIds = ['170218754301624321', ]; // Replace with the actual admin user IDs
+// grace 1107634653822730270
+const adminUserIds = ['170218754301624321','1077544030201716777', '1107634653822730270']; // Replace with the actual admin user IDs
 const master_owner = "1052027562542514238"
 const asia_server = "1202069160763588628"; // Asia server ID
 const global_server = "1052028004206903296"; // Global server ID
@@ -142,7 +143,13 @@ client.on('messageCreate', async message => {
         // General message handling
         const content = message.content.toLowerCase();
 
-        if (content.trim().endsWith('?') && !adminUserIds.includes(message.author.id) && message.author.id !== master_owner) {
+        if (
+            content.trim().includes('?') && 
+            !content.includes('https://www.meetup.com/') && 
+            !adminUserIds.includes(message.author.id) && 
+            message.author.id !== master_owner
+          )
+        {
             console.log(`Question asked by ${message.author.tag}: ${message.content}`);
             try {
                 const serverName = message.guild ? message.guild.name : 'Direct Message';
@@ -151,7 +158,7 @@ client.on('messageCreate', async message => {
                 
                 for (const adminUserId of adminUserIds) {
                     const adminUser = await client.users.fetch(adminUserId);
-                    await adminUser.send(`Admin, user ${displayName} needs your assistance in server "${serverName}", channel "${channelName}".\n\n${displayName}: ${message.content}`);
+                    await adminUser.send(` --- ****NOTICE****\nAdmin, user ${displayName} needs your assistance in server: "${serverName}", channel: "${channelName}".\n\n\`\`\`${displayName}: ${message.content} \`\`\`\n ****END OF MESSAGE****`);
                 }
             } catch (error) {
                 console.error('Error sending DM to admin:', error);
@@ -160,7 +167,7 @@ client.on('messageCreate', async message => {
             if (content.includes('not') && content.includes('orientation')) {
                 message.reply('We\'re sorry, but if you missed the first class, you won\'t be able to join this batch. However, don\'t worry! We would love to have you in the next one.');
             } else if (content.includes('signup') || content.includes('register') || content.includes('join')) {
-                if (message.guild && message.channel.id === '878567744205910018') {
+                if (message.guild && message.channel.id === '1173782906796253224') {
                     message.reply('To join our upcoming webinar, please follow the provided Meetup link. We look forward to having you join us!');
                 } 
 
