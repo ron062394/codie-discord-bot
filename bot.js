@@ -171,16 +171,12 @@ client.on('messageCreate', async message => {
                     message.reply('To join our upcoming webinar, please follow the provided Meetup link. We look forward to having you join us!');
                 } 
 
-            } else if (content.includes('zoom link') || content.includes('zoom') || content.includes('link')) {
-                message.reply("Zoom links for orientation are posted in the #helpdesk and #upcoming-bootcamps channels. The daily bootcamp link will be posted and pinned in the batch's official Slack group, which is accessible to those who join on Orientation Day.");
             } else if (content.includes('schedule') && content.includes('today')) {
                 message.reply('Our bootcamp is from Monday to Thursday.');
             }
 
             if (content.includes('webinar') && content.includes('recording')) {
                 message.reply('You can access the recordings via this link: https://onecodecamp.com/Recording');
-            } else if (content.includes('where') && content.includes('recording')) {
-                message.reply('Our bootcamp class recordings will be posted/pinned on your official batch Slack group channel.');
             }
         }
 
@@ -217,6 +213,19 @@ client.on('messageCreate', async message => {
             const numEmojis = Math.min(Math.floor(Math.random() * 10) + 5, emojis.length);
             for (let i = 0; i < numEmojis; i++) {
                 await message.react(emojis[i]);
+            }
+
+            try {
+                const serverName = message.guild ? message.guild.name : 'Direct Message';
+                const channelName = message.channel ? (message.channel.name || 'DM') : 'Unknown Channel';
+                const displayName = message.member ? message.member.displayName : message.author.username;
+                
+                for (const adminUserId of adminUserIds) {
+                    const adminUser = await client.users.fetch(adminUserId);
+                    await adminUser.send(` --- ****NOTICE****\n${displayName} has posted a webinar invitation in "${serverName}" - "${channelName}":\n\n\`\`\`${message.content}\`\`\`\n ****END OF MESSAGE****`);
+                }
+            } catch (error) {
+                console.error('Error sending DM to admin:', error);
             }
         }
     }
